@@ -1,0 +1,45 @@
+Flashing firmware into esp01s
+- insert the esp01s module into the USB adapter
+- press the push button and insert the USB adapter for the esp01s to enter into the reset mode
+- open esp8266_flasher file
+- verify the COM and locate the v0.9.2.2 AT Firmware by clicking on the "Bin"
+- click on Download
+
+
+
+
+
+
+AT Commands
+1. AT Commands using USB adapter
+- after flashing the firmware if the USB adapter is still connected then reset the esp01s module. You can do that by either connecting GND and RESET pin once or re-connectin the USB adapter.
+- Open Arduino IDE, Open a new sketch and select "Generic ESP8266 module as the board" (Do not upload the new sketch or it will erase the firware)
+- Open Serial Monitor and selet 9600 baud rate(if the module is of older verion then select 115200 baud rate)
+- Type AT and hit enter. It should respond "OK"
+
+2. AT Commands using UNO
+- Follow this connection
+esp01s	UNO
+RX	0(assigned as RX)
+TX	1(assigned as TX)
+CH_EN	3.3V
+VCC	3.3V
+GND	GND
+- Select "Arduino Uno as the board". Upload a blank sketch
+- Open Serial Monitor and selet 9600 baud rate(if the module is of older verion then select 115200 baud rate)
+- Type AT and hit enter. If it does not responds OK then reset the module or/and re-connect the CH_EN pin.
+
+
+
+
+
+
+
+Blinking LED with esp01s using UNO
+- Follow this connection
+esp01s	UNO
+RX	3(assigned as TX)
+TX	2(assigned as RX)
+CH_EN	3.3V
+VCC	3.3V
+GND	GND
