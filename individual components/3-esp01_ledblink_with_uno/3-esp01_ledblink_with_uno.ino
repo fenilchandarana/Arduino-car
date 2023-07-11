@@ -9,7 +9,7 @@ char auth[] = BLYNK_AUTH_TOKEN;
 
 // or Software Serial on Uno, Nano...
 #include <SoftwareSerial.h>
-SoftwareSerial EspSerial(2, 3); // RX, TX
+SoftwareSerial EspSerial(3, 2); // RX, TX
 
 // Your ESP8266 baud rate:
 #define ESP8266_BAUD 9600
