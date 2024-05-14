@@ -35,5 +35,5 @@ void loop() {
   
   radio.write(&buffer, sizeof(buffer));
   Serial.println(buffer);  // Debugging line to see what is sent
-  delay(1000);
+  delay(10);
 }
