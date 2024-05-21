@@ -12,3 +12,6 @@ https://youtu.be/u5dhGN6QaL8
 https://blynk.cloud/dashboard/login
 
 https://community.blynk.cc/t/esp-is-not-responding-help/47774/10
+
+
+https://randomnerdtutorials.com/esp32-cam-video-streaming-face-recognition-arduino-ide/
