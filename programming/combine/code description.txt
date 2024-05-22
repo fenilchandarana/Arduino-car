@@ -1,0 +1,59 @@
+joystick_nrf_transmit
+will work with 
+joystick_nrf_receive
+joystick_nrf_l298n_receive
+joystick_nrf_l298n_receive_2
+joystick_nrf_l298n_receive_3
+
+joystick_nrf_transmit_2
+will work with
+joystick_nrf_l298n_receive_4
+
+
+
+
+
+joystick_nrf_transmit:
+Send raw analog data(0 to 1023) where analg value of joystick when in idle position will be 505 and the value of the position of joystick at extreme end will be 0 and 1023. Data is sent by joystick through nrf transmitter
+
+joystick_nrf_receive:
+Reads the data coming  from the transmitter and displays in the serial monitor. Data is received by nrf transmitter
+
+joystick_nrf_l298n_receive:
+parses the raw analog data(0 to 1023) coming from the joystick and converts it into PWM(0 to 255)
+based on the PWM signal of a particular joystick, l298n will actuate 
+has a dead zone, if the PWM value changes by +or- 10, l298n won't actute
+forward/backward and right/left works fine individually but only one joystick works at a time
+
+joystick_nrf_l298n_receive_2:
+parses the raw analog data(0 to 1023) coming from the joystick and converts it into PWM(0 to 255)
+based on the PWM signal of a particular joystick, l298n will actuate 
+has a dead zone, if the PWM value changes by +or- 10, l298n won't actute
+for forward/backward, only motorA works i.e. 	int enA = 25; 	int in1 = 26 	int in2 = 27;
+for left/right, only motorB works i.e. 		int enB = 12;	int in3 = 13;	int in4 = 14;
+forward/backward and left/right both actuates at the same time
+
+joystick_nrf_l298n_receive_3:
+parses the raw analog data(0 to 1023) coming from the joystick and converts it into PWM(0 to 255)
+based on the PWM signal of a particular joystick, l298n will actuate 
+has a dead zone, if the PWM value changes by +or- 10, l298n won't actute
+forward/backward and right/left both works in a way where if the car is moving forward with the help of jostick1 and at the same time if i use joystick2 to turn right, car will stop moving forward and start turning right
+motor's rotation for backward and left is fine but for forward and right, when the joystick is pushed to the extreme, motors will stop rotating. basically in the analog range of 505 to 0 for forward and right,  if the analog read is between 50 and 0, motor won't rotate. Motors will only rotate is the analog read is between 505 to 50
+
+joystick_nrf_transmit_2:
+conversion of analog read to PWM happens on the transmitter end. The output will be in the form of forward,0,right,0. 
+If joystick1 is pushed forward the output will be forward,255,right0
+if joystick1 is pushed backward the output will be backward,255,right,0
+if joystick2 is pushed towards left the output will be forward,0,left,255
+if joystick2 is pushed towards left the output will be forward,0,right,255
+
+joystick_nrf_l298n_receive_4:
+based on the output given by the transmitter, when it will read the word forward, it will actuate the command lines for forward, which is 
+  digitalWrite(in1, LOW);
+  digitalWrite(in2, HIGH);
+  digitalWrite(in3, HIGH);
+  digitalWrite(in4, LOW);
+and so on the other directions
+when it will read the numbers, speed of the motors which is the enA and enB will be set accordingly
+too much lag in the actuation. Motor will start to rotate 1-2 seconds after joystick is moved and motor will stop rotating 1-2 seconds after the joystick is in home position
+
