@@ -4,6 +4,7 @@ joystick_nrf_receive
 joystick_nrf_l298n_receive
 joystick_nrf_l298n_receive_2
 joystick_nrf_l298n_receive_3
+joystick_nrf_l298n_receive_stein
 
 joystick_nrf_transmit_2
 will work with
