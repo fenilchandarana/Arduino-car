@@ -3,16 +3,18 @@
 #include <DabbleESP32.h>
 
 // Right motor
-int enableRightMotor = 25;
-int rightMotorPin1 = 26;
-int rightMotorPin2 = 27;
+int enableRightMotor = 12;
+int rightMotorPin1 = 13;
+int rightMotorPin2 = 14;
 
 // Left motor
-int enableLeftMotor = 12;
-int leftMotorPin1 = 13;
-int leftMotorPin2 = 14;
+int enableLeftMotor = 25;
+int leftMotorPin1 = 26;
+int leftMotorPin2 = 27;
 
-#define MAX_MOTOR_SPEED 255 // Adjusted to match PWM range
+#define MAX_MOTOR_SPEED 150 // Adjusted to match PWM range
+#define BUTTON_ONLY_SPEED 120
+#define BUTTON_WITH_JOYSTICK_SPEED 120
 
 const int PWMFreq = 1000; /* 1 KHz */
 const int PWMResolution = 8;
@@ -76,31 +78,39 @@ void loop() {
 
   bool joystickControl = true;
 
+  // Joystick for forward/backward movement
+  int yAxis = GamePad.gety_axis();
+  int mappedSpeed = map(abs(yAxis), 0, 6, 0, MAX_MOTOR_SPEED);
+
+  if (yAxis > 0) { // Forward
+    rightMotorSpeed = mappedSpeed;
+    leftMotorSpeed = -mappedSpeed;
+  } else if (yAxis < 0) { // Backward
+    rightMotorSpeed = -mappedSpeed;
+    leftMotorSpeed = mappedSpeed;
+  }
+
   // Left/Right movement using buttons
   if (GamePad.isSquarePressed()) { // Move Left
-    leftMotorSpeed = MAX_MOTOR_SPEED;
+    if (joystickControl && yAxis != 0) {
+      rightMotorSpeed = BUTTON_WITH_JOYSTICK_SPEED;
+      leftMotorSpeed = 0;
+    } else {
+      rightMotorSpeed = BUTTON_ONLY_SPEED;
+      leftMotorSpeed = BUTTON_ONLY_SPEED;
+    }
     joystickControl = false; // Override joystick
   }
 
   if (GamePad.isCirclePressed()) { // Move Right
-    rightMotorSpeed = -MAX_MOTOR_SPEED;
-    joystickControl = false; // Override joystick
-  }
-
-  // Joystick for forward/backward movement
-  if (joystickControl) {
-    int yAxis = GamePad.gety_axis();
-
-    // Map the joystick value to PWM range
-    int mappedSpeed = map(abs(yAxis), 0, 6, 0, MAX_MOTOR_SPEED);
-
-    if (yAxis > 0) { // Forward
-      rightMotorSpeed = -mappedSpeed;
-      leftMotorSpeed = mappedSpeed;
-    } else if (yAxis < 0) { // Backward
-      rightMotorSpeed = mappedSpeed;
-      leftMotorSpeed = -mappedSpeed;
+    if (joystickControl && yAxis != 0) {
+      rightMotorSpeed = 0;
+      leftMotorSpeed = -BUTTON_WITH_JOYSTICK_SPEED;
+    } else {
+      rightMotorSpeed = -BUTTON_ONLY_SPEED;
+      leftMotorSpeed = -BUTTON_ONLY_SPEED;
     }
+    joystickControl = false; // Override joystick
   }
 
   rotateMotor(rightMotorSpeed, leftMotorSpeed);

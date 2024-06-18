@@ -3,13 +3,14 @@
 #include <DabbleESP32.h>
 
 //Right motor
-int enableRightMotor = 25;
-int rightMotorPin1 = 26;
-int rightMotorPin2 = 27;
+int enableRightMotor = 12;
+int rightMotorPin1 = 13;
+int rightMotorPin2 = 14;
+
 //Left motor
-int enableLeftMotor = 12;
-int leftMotorPin1 = 13;
-int leftMotorPin2 = 14;
+int enableLeftMotor = 25;
+int leftMotorPin1 = 26;
+int leftMotorPin2 = 27;
 
 #define MAX_MOTOR_SPEED 150
 
@@ -86,28 +87,33 @@ void loop()
   int rightMotorSpeed = 0;
   int leftMotorSpeed = 0;
   Dabble.processInput();
-  if (GamePad.isUpPressed())
-  {
-    rightMotorSpeed = -MAX_MOTOR_SPEED;
-    leftMotorSpeed = MAX_MOTOR_SPEED;
-  }
 
-  if (GamePad.isDownPressed())
+  // forward
+  if (GamePad.isUpPressed())
   {
     rightMotorSpeed = MAX_MOTOR_SPEED;
     leftMotorSpeed = -MAX_MOTOR_SPEED;
   }
 
-  if (GamePad.isSquarePressed())
+  // backward
+  if (GamePad.isDownPressed())
   {
-    //    rightMotorSpeed = -MAX_MOTOR_SPEED;
+    rightMotorSpeed = -MAX_MOTOR_SPEED;
     leftMotorSpeed = MAX_MOTOR_SPEED;
   }
 
+  // left
+  if (GamePad.isSquarePressed())
+  {
+    rightMotorSpeed = MAX_MOTOR_SPEED;
+//    leftMotorSpeed = MAX_MOTOR_SPEED;
+  }
+
+  // right
   if (GamePad.isCirclePressed())
   {
-    rightMotorSpeed = -MAX_MOTOR_SPEED;
-    //    leftMotorSpeed = -MAX_MOTOR_SPEED;
+//    rightMotorSpeed = -MAX_MOTOR_SPEED;
+    leftMotorSpeed = -MAX_MOTOR_SPEED;
 
   }
 
